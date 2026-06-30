@@ -1,0 +1,10 @@
+# Im CI aus Secrets generierte Konfiguration – darf kein Secret im Repo hinterlassen.
+src/config.js
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+node_modules/

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel. Ein satirisches Jump'n'Run rund um Verspätung, Überfüllung, Hitze und Kälte. Satire-Fanprojekt, keine offizielle DB-Anwendung." />
+  <meta name="theme-color" content="#EC0016" />
+  <title>Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Konfiguration: Im CI aus Secrets generiert (src/config.js). Fehlt sie, greift der lokale Fallback. -->
+  <script>window.DB_CONFIG = null;</script>
+  <script src="src/config.js" onerror="void 0"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Kopfzeile im DB-Stil -->
+    <header class="topbar" role="banner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">DV</span>
+        <span class="brand-text">
+          <strong>Deutsche Verspätungsbahn</strong>
+          <small>Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel</small>
+        </span>
+      </div>
+      <div class="parody-badge" title="Dies ist ein satirisches Fanprojekt.">SATIRE&nbsp;· FANPROJEKT</div>
+    </header>
+
+    <!-- Spielfläche -->
+    <main class="stage" id="stage">
+      <canvas id="game" width="960" height="540" aria-label="Spielfeld"></canvas>
+
+      <!-- HUD über dem Canvas -->
+      <div id="hud" class="hud hidden" aria-hidden="true">
+        <div class="hud-row">
+          <span class="hud-lives" id="hud-lives">❤❤❤</span>
+          <span class="hud-score" id="hud-score">0 €</span>
+        </div>
+        <div class="hud-meters">
+          <div class="meter" id="meter-temp-wrap">
+            <span class="meter-label" id="meter-temp-label">Temperatur</span>
+            <div class="meter-bar"><div class="meter-fill" id="meter-temp"></div></div>
+          </div>
+          <div class="meter">
+            <span class="meter-label">Überfüllung</span>
+            <div class="meter-bar"><div class="meter-fill crowd" id="meter-crowd"></div></div>
+          </div>
+          <div class="meter delay">
+            <span class="meter-label">Verspätung</span>
+            <span class="delay-value" id="hud-delay">+0 Min</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bildschirm-Overlays -->
+      <section id="screen-start" class="overlay">
+        <div class="panel">
+          <h1>Wegen&nbsp;Unregelmäßigkeiten<br />im&nbsp;Betriebsablauf</h1>
+          <p class="subtitle">🚆 Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert.</p>
+          <button class="btn primary" id="btn-start">Reise beginnen</button>
+          <button class="btn" id="btn-show-board">Bestenliste</button>
+          <button class="btn ghost" id="btn-show-help">Steuerung &amp; Info</button>
+          <p class="disclaimer">
+            Dies ist ein <strong>satirisches Fanprojekt</strong> und steht in <strong>keiner Verbindung zur Deutschen Bahn AG</strong>.
+            Keine offizielle DB-Anwendung. Alle Marken gehören ihren jeweiligen Eigentümern.
+          </p>
+        </div>
+      </section>
+
+      <section id="screen-name" class="overlay hidden">
+        <div class="panel">
+          <h2>Reisende:r registrieren</h2>
+          <p>Wähle einen Namen für die Bestenliste.</p>
+          <input type="text" id="input-name" maxlength="20" placeholder="z.&nbsp;B. PünktlichkeitsLegende" autocomplete="off" />
+          <p class="field-error hidden" id="name-error"></p>
+          <button class="btn primary" id="btn-name-confirm">Weiter</button>
+          <button class="btn ghost" id="btn-name-back">Zurück</button>
+          <p class="hint">Tipp: Bitte keinen Klarnamen verwenden. Gespeichert werden nur Spitzname&nbsp;+&nbsp;Punktzahl.</p>
+        </div>
+      </section>
+
+      <section id="screen-levels" class="overlay hidden">
+        <div class="panel">
+          <h2>Fahrplanauswahl</h2>
+          <p class="travelling-as">Unterwegs als: <strong id="levels-playername">—</strong></p>
+          <div class="level-list" id="level-list"></div>
+          <button class="btn ghost" id="btn-levels-back">Zurück</button>
+        </div>
+      </section>
+
+      <section id="screen-help" class="overlay hidden">
+        <div class="panel">
+          <h2>Steuerung &amp; Info</h2>
+          <ul class="help-list">
+            <li><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> — laufen</li>
+            <li><kbd>Leer</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> — springen</li>
+            <li><kbd>P</kbd> / <kbd>Esc</kbd> — Pause</li>
+            <li>📱 Touch: Buttons am unteren Rand</li>
+          </ul>
+          <p class="help-text">
+            Sammle <strong>Entschädigungs-Euro</strong>, halte die <strong>Temperatur</strong> im Griff
+            (Eis/Ventilator im Sommer, Kaffee/Glühwein im Winter), weiche <strong>Menschenmengen</strong>,
+            <strong>Signalstörungen</strong> und dem <strong>Schienenersatzverkehr</strong> aus – und erreiche den
+            abfahrenden Zug, bevor die Verspätung explodiert.
+          </p>
+          <button class="btn ghost" id="btn-help-back">Zurück</button>
+        </div>
+      </section>
+
+      <section id="screen-board" class="overlay hidden">
+        <div class="panel">
+          <h2>Bestenliste</h2>
+          <p class="board-mode" id="board-mode"></p>
+          <ol class="board" id="board-list"><li class="board-empty">Lade …</li></ol>
+          <button class="btn ghost" id="btn-board-back">Zurück</button>
+        </div>
+      </section>
+
+      <section id="screen-pause" class="overlay hidden">
+        <div class="panel">
+          <h2>Pause</h2>
+          <p class="pause-station">Außerplanmäßiger Halt auf freier Strecke.</p>
+          <button class="btn primary" id="btn-resume">Weiterfahren</button>
+          <button class="btn ghost" id="btn-quit">Reise abbrechen</button>
+        </div>
+      </section>
+
+      <section id="screen-result" class="overlay hidden">
+        <div class="panel">
+          <h2 id="result-title">Ziel erreicht!</h2>
+          <p id="result-text"></p>
+          <div class="result-score" id="result-score">0 €</div>
+          <p class="board-mode" id="result-board-note"></p>
+          <button class="btn primary" id="btn-result-next">Weiter</button>
+          <button class="btn ghost" id="btn-result-menu">Zum Fahrplan</button>
+        </div>
+      </section>
+
+      <!-- Touch-Steuerung -->
+      <div id="touch-controls" class="touch hidden" aria-hidden="true">
+        <div class="touch-left">
+          <button class="touch-btn" data-key="left" aria-label="links">◀</button>
+          <button class="touch-btn" data-key="right" aria-label="rechts">▶</button>
+        </div>
+        <div class="touch-right">
+          <button class="touch-btn jump" data-key="jump" aria-label="springen">▲</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>
+        Satirisches Fanprojekt · <strong>keine offizielle DB-Anwendung</strong> · ohne Verbindung zur Deutschen Bahn AG.
+      </span>
+      <a href="https://github.com/mitchobrian/wegen-unregelmaeigkeiten-im-betriebsablauf-deutsche-bahn-das-spiel" target="_blank" rel="noopener">Open Source auf GitHub</a>
+    </footer>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
