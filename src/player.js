@@ -2,14 +2,14 @@
 
 import { TILE } from './level.js';
 
-const MOVE_SPEED = 230;     // px/s
+const MOVE_SPEED = 235;     // px/s
 const ACCEL = 1800;
 const FRICTION = 1700;
-const GRAVITY = 2100;
-const JUMP_VELOCITY = -720;
-const MAX_FALL = 1000;
-const COYOTE_TIME = 0.09;   // kurze Sprung-Toleranz nach Kantenabgang
-const JUMP_BUFFER = 0.12;
+const GRAVITY = 1850;       // etwas geringer -> floatiger, leichter steuerbar
+const JUMP_VELOCITY = -865; // höherer Sprung: ~6 Felder, erreicht alle Plattformen
+const MAX_FALL = 950;
+const COYOTE_TIME = 0.12;   // großzügige Sprung-Toleranz nach Kantenabgang
+const JUMP_BUFFER = 0.14;
 
 export class Player {
   constructor(spawn) {
@@ -58,8 +58,8 @@ export class Player {
       this.coyote = 0;
       this.jumpBuffer = 0;
     }
-    // Variable Sprunghöhe: Loslassen kappt Aufwärtsbewegung
-    if (!input.jump && this.vy < -260) this.vy = -260;
+    // Variable Sprunghöhe: Loslassen kappt Aufwärtsbewegung (kurzer Tipp = kleiner Hüpfer)
+    if (!input.jump && this.vy < -320) this.vy = -320;
 
     // Schwerkraft
     this.vy = Math.min(MAX_FALL, this.vy + GRAVITY * dt);

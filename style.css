@@ -125,9 +125,9 @@ html, body {
 .subtitle { color: var(--db-grey-light); font-size: 15px; margin: 0 0 20px; }
 
 /* Start-Screen: DB-Markenkopf */
-.db-brandhead { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 6px; }
+.db-brandhead { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 6px; }
 .db-logo-big svg { display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
-.db-name { font-size: clamp(28px, 5vw, 40px); font-weight: 800; color: var(--db-grey); margin: 0; line-height: 1; }
+.db-name { font-size: clamp(24px, 4.5vw, 34px); font-weight: 800; color: var(--db-grey); margin: 0; line-height: 1.05; }
 .subtitle.warn { color: var(--db-red); font-size: clamp(16px, 2.6vw, 20px); font-weight: 700; margin: 4px 0 8px; line-height: 1.25; }
 .subtitle.warn strong { text-transform: uppercase; letter-spacing: .5px; }
 .subtitle.tagline { font-size: 14px; margin: 0 0 20px; }
@@ -315,6 +315,8 @@ kbd {
 }
 .ingame-controls.collapsed .ic-list { display: none; }
 .ic-list kbd { font-size: 11px; padding: 1px 6px; }
+.ic-list .ic-goal { color: var(--board-yellow); font-weight: 700; }
+.ic-list .ic-goal:first-of-type { border-top: 1px solid rgba(255,255,255,.18); padding-top: 6px; margin-top: 2px; }
 
 /* ---------- Touch ---------- */
 .touch {

@@ -6,6 +6,21 @@
   <meta name="description" content="Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel. Ein satirisches Jump'n'Run rund um Verspätung, Überfüllung, Hitze und Kälte. Satire-Fanprojekt, keine offizielle DB-Anwendung." />
   <meta name="theme-color" content="#EC0016" />
   <title>Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel</title>
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Deutsche Verspätungsbahn – Das Spiel" />
+  <meta property="og:title" content="Deutsche Verspätungsbahn – Das Spiel" />
+  <meta property="og:description" content="Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert. Satirisches Fanprojekt – keine offizielle DB-Anwendung." />
+  <meta property="og:url" content="https://mitchobrian.github.io/wegen-unregelmaeigkeiten-im-betriebsablauf-deutsche-bahn-das-spiel/" />
+  <meta property="og:image" content="https://mitchobrian.github.io/wegen-unregelmaeigkeiten-im-betriebsablauf-deutsche-bahn-das-spiel/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Deutsche Verspätungsbahn – Das Spiel" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Deutsche Verspätungsbahn – Das Spiel" />
+  <meta name="twitter:description" content="Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert. Satirisches Fanprojekt." />
+  <meta name="twitter:image" content="https://mitchobrian.github.io/wegen-unregelmaeigkeiten-im-betriebsablauf-deutsche-bahn-das-spiel/assets/og-image.png" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
   <!-- Konfiguration: Im CI aus Secrets generiert (src/config.js). Fehlt sie, greift der lokale Fallback. -->
@@ -56,14 +71,14 @@
       <section id="screen-start" class="overlay">
         <div class="panel">
           <div class="db-brandhead">
-            <span class="db-logo-big" role="img" aria-label="DB">
-              <svg viewBox="0 0 80 52" width="80" height="52" aria-hidden="true">
-                <rect x="1.5" y="1.5" width="77" height="49" rx="9" fill="#EC0016" />
-                <rect x="8" y="8" width="64" height="36" rx="5" fill="#ffffff" />
-                <text x="40" y="37" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="30" fill="#EC0016">DB</text>
+            <span class="db-logo-big" role="img" aria-label="DV">
+              <svg viewBox="0 0 96 52" width="96" height="52" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="93" height="49" rx="9" fill="#EC0016" />
+                <rect x="8" y="8" width="80" height="36" rx="5" fill="#ffffff" />
+                <text x="48" y="37" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-style="italic" font-size="30" fill="#EC0016">DV</text>
               </svg>
             </span>
-            <h1 class="db-name">Deutsche&nbsp;Bahn</h1>
+            <h1 class="db-name">Deutsche<br />Verspätungsbahn</h1>
           </div>
           <p class="subtitle warn"><strong>Achtung:</strong> Wegen&nbsp;Unregelmäßigkeiten<br />im&nbsp;Betriebsablauf&nbsp;…</p>
           <p class="subtitle tagline">🚆 Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert.</p>
@@ -108,10 +123,12 @@
             <li>📱 Touch: Buttons am unteren Rand</li>
           </ul>
           <p class="help-text">
-            Sammle <strong>Entschädigungs-Euro</strong>, halte die <strong>Temperatur</strong> im Griff
-            (Eis/Ventilator im Sommer, Kaffee/Glühwein im Winter), weiche <strong>Menschenmengen</strong>,
-            <strong>Signalstörungen</strong> und dem <strong>Schienenersatzverkehr</strong> aus – und erreiche den
-            abfahrenden Zug, bevor die Verspätung explodiert.
+            <strong>Dein Ziel:</strong> Lauf einfach nach <strong>rechts</strong> bis zum abfahrenden Zug 🚆 –
+            das reicht zum Durchkommen. <strong>Plattformen und Münzen sind optionaler Bonus</strong>, du musst
+            nicht hochklettern. Wer mehr Punkte will: sammle <strong>Entschädigungs-Euro</strong>, halte die
+            <strong>Temperatur</strong> im Griff (Eis/Ventilator im Sommer, Kaffee/Glühwein im Winter) und weiche
+            <strong>Menschenmengen</strong>, <strong>Signalstörungen</strong> und dem
+            <strong>Schienenersatzverkehr</strong> aus.
           </p>
           <button class="btn ghost" id="btn-help-back">Zurück</button>
         </div>
@@ -153,6 +170,8 @@
           <li><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> laufen</li>
           <li><kbd>Leer</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> springen</li>
           <li><kbd>P</kbd> / <kbd>Esc</kbd> Pause</li>
+          <li class="ic-goal">🚆 Ziel: einfach nach <strong>rechts</strong> zum Zug</li>
+          <li class="ic-goal">€ Münzen &amp; Plattformen = optionaler Bonus</li>
         </ul>
       </div>
 
