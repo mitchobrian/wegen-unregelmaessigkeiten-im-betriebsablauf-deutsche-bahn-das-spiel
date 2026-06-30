@@ -14,11 +14,18 @@ const canvas = $('game');
 const SCREENS = ['screen-start', 'screen-name', 'screen-levels', 'screen-help', 'screen-board', 'screen-pause', 'screen-result'];
 function showScreen(id) {
   SCREENS.forEach((s) => $(s).classList.toggle('hidden', s !== id));
-  if (id) { hud.hide(); $('touch-controls').classList.add('hidden'); }
+  if (id) { hud.hide(); $('touch-controls').classList.add('hidden'); $('ingame-controls').classList.add('hidden'); }
 }
 function hideAllScreens() { SCREENS.forEach((s) => $(s).classList.add('hidden')); }
 
 const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+// HUD + passende Steuerungsanzeige einblenden (Touch-Buttons bzw. Desktop-Hilfe).
+function showGameUI() {
+  hud.show();
+  if (isTouch) $('touch-controls').classList.remove('hidden');
+  else $('ingame-controls').classList.remove('hidden');
+}
 
 let lastResult = null; // { outcome:'win'|'over', def, result }
 
@@ -32,8 +39,7 @@ const game = new Game(canvas, {
 /* ---------- Spielstart pro Level ---------- */
 function startLevel(def) {
   hideAllScreens();
-  hud.show();
-  if (isTouch) $('touch-controls').classList.remove('hidden');
+  showGameUI();
   game.start(def);
 }
 
@@ -149,7 +155,7 @@ async function confirmName() {
 /* ---------- Pause-Handling ---------- */
 function togglePause() {
   if (!game.running) return;
-  if (game.paused) { game.resume(); showScreen(null); hud.show(); if (isTouch) $('touch-controls').classList.remove('hidden'); }
+  if (game.paused) { game.resume(); showScreen(null); showGameUI(); }
   else { game.pause(); showScreen('screen-pause'); }
 }
 
@@ -200,6 +206,13 @@ function wire() {
     btn.addEventListener('pointerup', press(false));
     btn.addEventListener('pointerleave', press(false));
     btn.addEventListener('pointercancel', press(false));
+  });
+
+  // Steuerungs-Hilfe ein-/ausklappen
+  $('ic-toggle').addEventListener('click', () => {
+    const box = $('ingame-controls');
+    const collapsed = box.classList.toggle('collapsed');
+    $('ic-toggle').setAttribute('aria-expanded', String(!collapsed));
   });
 
   // Prefill Name

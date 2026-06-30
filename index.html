@@ -55,8 +55,18 @@
       <!-- Bildschirm-Overlays -->
       <section id="screen-start" class="overlay">
         <div class="panel">
-          <h1>Wegen&nbsp;Unregelmäßigkeiten<br />im&nbsp;Betriebsablauf</h1>
-          <p class="subtitle">🚆 Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert.</p>
+          <div class="db-brandhead">
+            <span class="db-logo-big" role="img" aria-label="DB">
+              <svg viewBox="0 0 80 52" width="80" height="52" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="77" height="49" rx="9" fill="#EC0016" />
+                <rect x="8" y="8" width="64" height="36" rx="5" fill="#ffffff" />
+                <text x="40" y="37" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="30" fill="#EC0016">DB</text>
+              </svg>
+            </span>
+            <h1 class="db-name">Deutsche&nbsp;Bahn</h1>
+          </div>
+          <p class="subtitle warn"><strong>Achtung:</strong> Wegen&nbsp;Unregelmäßigkeiten<br />im&nbsp;Betriebsablauf&nbsp;…</p>
+          <p class="subtitle tagline">🚆 Schaffe es trotz Hitze, Halt, Verspätung und Überfüllung irgendwie zum Ziel. Pünktlichkeit nicht garantiert.</p>
           <button class="btn primary" id="btn-start">Reise beginnen</button>
           <button class="btn" id="btn-show-board">Bestenliste</button>
           <button class="btn ghost" id="btn-show-help">Steuerung &amp; Info</button>
@@ -135,6 +145,16 @@
           <button class="btn ghost" id="btn-result-menu">Zum Fahrplan</button>
         </div>
       </section>
+
+      <!-- Dauerhaft sichtbare Steuerungs-Hilfe (Desktop) -->
+      <div id="ingame-controls" class="ingame-controls hidden" aria-hidden="true">
+        <button class="ic-toggle" id="ic-toggle" type="button" aria-expanded="true">⌨&nbsp;Steuerung</button>
+        <ul class="ic-list" id="ic-list">
+          <li><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> laufen</li>
+          <li><kbd>Leer</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> springen</li>
+          <li><kbd>P</kbd> / <kbd>Esc</kbd> Pause</li>
+        </ul>
+      </div>
 
       <!-- Touch-Steuerung -->
       <div id="touch-controls" class="touch hidden" aria-hidden="true">
