@@ -8,7 +8,7 @@ Manche Projekte beginnen mit einem Lastenheft, einem Kickoff-Meeting und drei Wo
 
 > „Wir programmieren ein Spiel im Super-Mario-Stil, welches die Deutsche Bahn auf die Schippe nimmt. Das Spiel soll die Probleme der Bahn thematisieren (zu spät, zu voll, defekte Klimatisierung etc.). [...] Es soll direkt auf GitHub als Open-Source-Projekt gehostet werden (GitHub Pages). Das Spiel soll 3 Level haben und den Fortschritt im Browser speichern. Man soll vorab einen Spielernamen (für eine Bestenliste) eingeben (Blacklist für unangebrachte Namen implementieren). [...] Schreibe zudem einen ansprechenden Artikel über die einfache Erstellung der gesamten Applikation."
 
-Heraus kam **„Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel"**: ein lauffähiges Browser-Jump'n'Run mit drei Leveln, Online-Bestenliste, Namensfilter, DB-Look – und automatischem Deployment per CI/CD. Und dieser Artikel, den die KI über sich selbst geschrieben hat. Höchste Zeit, hinter die Kulissen zu schauen.
+Heraus kam **„Wegen Unregelmäßigkeiten im Betriebsablauf – Das Spiel"**: ein lauffähiges Browser-Jump'n'Run mit drei Leveln, Online-Bestenliste, Namensfilter, DB-Parodie-Look – und automatischem Deployment per CI/CD. Und dieser Artikel, den die KI über sich selbst geschrieben hat. Vom ersten Prompt bis zum fertigen, ausgerollten Spiel inklusive Artikel: **rund eine Stunde** – mit ein paar gezielten Korrekturen von Hand dazwischen (dazu später mehr). Höchste Zeit, hinter die Kulissen zu schauen.
 
 ## Erst denken, dann tippen
 
@@ -52,6 +52,15 @@ Bemerkenswert für einen „One-Prompt"-Build: Die KI hat ihren Code nicht nur g
 
 Bei jedem Commit auf `main` läuft ein GitHub-Actions-Workflow: Konfiguration aus Secrets generieren → JS-Syntax prüfen → statische Seite bündeln → auf GitHub Pages deployen. Der Workflow aktiviert Pages bei Bedarf selbst. Push genügt – Sekunden später ist die neue Version live.
 
+## Nicht ganz auf Autopilot – wo Menschenhand nötig war
+
+So beeindruckend der „One-Prompt"-Eindruck ist: Ganz ohne Hände am Steuer ging es nicht – und das gehört zur ehrlichen Geschichte dazu. Zwei Dinge musste der Mensch übernehmen:
+
+1. **Die Datenbank scharf schalten.** Eine geteilte Bestenliste braucht ein echtes Backend, und das kann eine KI nicht für einen anlegen: Das **Supabase-Projekt** musste manuell erstellt, das Tabellen-Schema samt Row-Level-Security eingespielt und die Zugangsdaten (Projekt-URL + öffentlicher Key) als **Secrets in die CI/CD-Pipeline** übernommen werden. Erst danach lief die Online-Rangliste – bis dahin trug das eingebaute localStorage-Fallback das Spiel.
+2. **Die Welt nachschärfen.** Der erste Wurf sah eher nach Stadtkulisse aus. Auf den Hinweis „man läuft hier durch eine Stadt, nicht durch einen Zug" baute die KI die Umgebung um: ein durchgehender Zug am Nachbargleis – **Regionalbahn, S-Bahn und ICE** je Level – plus ein klar erkennbarer Ziel-Zug mit Zugzielanzeiger. Auch Sprunghöhe, Hinweise und der Schnee-Effekt wurden nach kurzem Feedback nachjustiert.
+
+Mit anderen Worten: Der erste Prompt brachte 90 Prozent in einem Rutsch; die letzten 10 Prozent entstanden im Dialog – ein paar präzise Rückmeldungen, die die KI jeweils sauber umsetzte. **In Summe: vom Start-Prompt bis zum fertigen, ausgerollten Spiel inklusive diesem Artikel etwa eine Stunde.**
+
 ## Die Gretchenfrage: Was kostet so etwas?
 
 Hier wird oft geschwiegen oder geraten. Also rechnen wir offen – mit dem ausdrücklichen Hinweis: **Es sind Schätzungen in der richtigen Größenordnung, keine centgenaue Abrechnung.** Grundlage sind die aktuellen Preise für das verwendete Modell **Claude Opus 4.8**:
@@ -80,11 +89,11 @@ In Worten: **Ein komplettes, getestetes Open-Source-Spiel inklusive Backend-Anbi
 
 Drei Beobachtungen nimmt man aus diesem Experiment mit:
 
-1. **Der Prompt war simpel, das Ergebnis nicht.** Die eigentliche Arbeit – Stack-Wahl, Markenrecht, DSGVO, Missbrauchsschutz, Fallback-Strategie, Tests – hat die KI weitgehend selbst strukturiert. Gute Ergebnisse entstehen, wenn man dem Modell erlaubt, vor dem Coden zu *planen* und Rückfragen zu stellen.
+1. **Der Prompt war simpel, das Ergebnis nicht – aber nicht zu 100 Prozent autonom.** Die eigentliche Arbeit – Stack-Wahl, Markenrecht, DSGVO, Missbrauchsschutz, Fallback-Strategie, Tests – hat die KI weitgehend selbst strukturiert. Den letzten Schliff brachte der Dialog: das Backend manuell scharf schalten und ein paar gezielte Rückmeldungen (Zug-Optik, Sprunghöhe, Schnee). Gute Ergebnisse entstehen, wenn man dem Modell erlaubt, zu *planen*, Rückfragen zu stellen – und wenn man bereit ist, an den richtigen Stellen nachzusteuern.
 2. **„Statisch" ist kein Hindernis, sondern eine Designentscheidung.** Die Spannung zwischen „GitHub Pages, kein Server" und „geteilte Bestenliste" wurde nicht ignoriert, sondern sauber gelöst – mit einem externen Dienst plus Fallback.
-3. **Die Kosten sind erstaunlich niedrig** – vorausgesetzt, die Werkzeuge nutzen Prompt Caching konsequent.
+3. **Aufwand und Kosten sind erstaunlich niedrig** – rund eine Stunde Arbeit und ein einstelliger Eurobetrag, vorausgesetzt, die Werkzeuge nutzen Prompt Caching konsequent.
 
-Wer es selbst ausprobieren will: Das Projekt liegt vollständig quelloffen auf GitHub. Pünktlichkeit nicht garantiert. 🚆
+Wer es selbst ausprobieren will: Das Projekt liegt vollständig quelloffen auf GitHub. Pünktlichkeit nicht garantiert – das Ergebnis dafür ziemlich **fan-tastisch** (ja, als Wortspiel zum Fanprojekt). 🚆
 
 ---
 
