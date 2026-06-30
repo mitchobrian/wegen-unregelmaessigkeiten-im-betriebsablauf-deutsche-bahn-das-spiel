@@ -61,6 +61,8 @@ function buildLevel1() {
     subtitle: 'Klimaanlage defekt – die Hitze steigt. Halte dich mit Eis & Ventilatoren kühl.',
     icon: '🥵',
     par: 45,
+    trainType: 'RB',
+    trainName: 'Bummelheim',
     map: toRows(g),
   };
 }
@@ -94,6 +96,8 @@ function buildLevel2() {
     subtitle: 'Heizung ausgefallen – es wird eisig. Wärm dich an Kaffee & Glühwein.',
     icon: '🥶',
     par: 55,
+    trainType: 'S',
+    trainName: 'Frosthausen',
     map: toRows(g),
   };
 }
@@ -130,6 +134,8 @@ function buildLevel3() {
     subtitle: 'Verspätung, Überfüllung, Signalstörung, Schienenersatzverkehr – und das Klima dreht durch.',
     icon: '🎯',
     par: 70,
+    trainType: 'ICE',
+    trainName: 'Pünktlichkeitshausen',
     map: toRows(g),
   };
 }

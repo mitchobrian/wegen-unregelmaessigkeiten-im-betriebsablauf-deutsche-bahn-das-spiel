@@ -141,7 +141,7 @@ async function confirmName() {
   errEl.classList.add('hidden');
   const btn = $('btn-name-confirm');
   btn.disabled = true; btn.textContent = 'Prüfe Namen …';
-  const unique = await leaderboard.resolveName(result.value);
+  const unique = await leaderboard.resolveName(result.value, storage.getName());
   storage.setName(unique);
   btn.disabled = false; btn.textContent = 'Weiter';
   if (unique !== result.value) {
@@ -220,4 +220,6 @@ function wire() {
 }
 
 wire();
+// Einmalig: versehentliche Nummern-Varianten des eigenen Namens lokal aufräumen.
+if (storage.getName()) leaderboard.cleanupLocal(storage.getName());
 showScreen('screen-start');

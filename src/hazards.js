@@ -77,13 +77,36 @@ export class Hazards {
   drawOverlay(ctx) {
     const w = ctx.canvas.width;
     const h = ctx.canvas.height;
-    const intensity = Math.max(0, (this.temp - 40) / 60); // ab 40 sichtbar
-    if (intensity <= 0) return;
     const warm = this.theme === 'cold' ? false : (this.theme === 'mixed' ? Math.sin(this.swing * 0.4) >= 0 : true);
-    const grad = ctx.createRadialGradient(w / 2, h / 2, h * 0.25, w / 2, h / 2, h * 0.8);
+
+    if (warm) {
+      const intensity = Math.max(0, (this.temp - 40) / 60); // ab 40 sichtbar
+      if (intensity <= 0) return;
+      const grad = ctx.createRadialGradient(w / 2, h / 2, h * 0.25, w / 2, h / 2, h * 0.8);
+      grad.addColorStop(0, 'rgba(0,0,0,0)');
+      grad.addColorStop(1, `rgba(220,40,0,${0.6 * intensity})`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+      return;
+    }
+
+    // Kälte: früher sichtbar und kräftiger, plus vereiste Ecken.
+    const intensity = Math.max(0.12, (this.temp - 20) / 80);
+    const grad = ctx.createRadialGradient(w / 2, h / 2, h * 0.18, w / 2, h / 2, h * 0.85);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, warm ? `rgba(220,40,0,${0.55 * intensity})` : `rgba(40,120,255,${0.55 * intensity})`);
+    grad.addColorStop(1, `rgba(120,190,255,${0.75 * intensity})`);
     ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+    // Frostkristalle in den Ecken
+    const frost = ctx.createRadialGradient(0, 0, 0, 0, 0, h * 0.5);
+    frost.addColorStop(0, `rgba(255,255,255,${0.5 * intensity})`);
+    frost.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = frost;
+    ctx.fillRect(0, 0, w, h);
+    const frost2 = ctx.createRadialGradient(w, h, 0, w, h, h * 0.5);
+    frost2.addColorStop(0, `rgba(255,255,255,${0.5 * intensity})`);
+    frost2.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = frost2;
     ctx.fillRect(0, 0, w, h);
   }
 }
